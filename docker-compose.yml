@@ -43,7 +43,6 @@ services:
     build:
       context: ./database
       dockerfile: dockerfile
-    command: --default-authentication-plugin=mysql_native_password
     volumes:
       - my-data-2:/var/lib/mysql
     ports:
