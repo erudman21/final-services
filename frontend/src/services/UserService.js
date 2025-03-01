@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-const getBaseUrl = () => {
-    return typeof window !== 'undefined' ? '/api' : 'http://backend:9080';
-};
-  
-const USER_API_BASE_URL = `${getBaseUrl()}/users`;
+console.log(process.env.NODE_ENV);
+const USER_API_BASE_URL = process.env.APP_URL || 'http://localhost:9080/users';
+console.log(USER_API_BASE_URL);
 
 class UserService {
 
