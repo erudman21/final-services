@@ -1,8 +1,6 @@
 import axios from 'axios';
 
-console.log(process.env.NODE_ENV);
-const USER_API_BASE_URL = process.env.APP_URL || 'http://localhost:9080/users';
-console.log(USER_API_BASE_URL);
+const USER_API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:9080/users';
 
 class UserService {
 

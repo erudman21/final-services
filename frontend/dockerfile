@@ -12,7 +12,7 @@ RUN npm install
 # Install the required Node.js packages for the application.
 
 ARG API_URL=http://localhost:9080/users
-ENV APP_URL=${API_URL}
+ENV REACT_APP_API_URL=${API_URL}
 RUN npm run build
 # Build the React application.
 
