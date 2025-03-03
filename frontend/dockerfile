@@ -5,11 +5,14 @@ FROM node:16 as builder
 WORKDIR /app
 # Set the working directory for the build stage to /app.
 
-COPY . . 
-# Copy the current directory (which contains the application code) to the build stage.
+COPY package.json package-lock.json* ./
 
 RUN npm install
 # Install the required Node.js packages for the application.
+
+COPY . . 
+# Copy the current directory (which contains the application code) to the build stage.
+
 
 ARG API_URL=http://localhost:9080/users
 ENV REACT_APP_API_URL=${API_URL}
