@@ -21,7 +21,7 @@ func main() {
 func Routers() {
 	InitDB()
 	defer db.Close()
-	log.Println("Starting the HTTP server on port 9081")
+	log.Println("Starting the HTTP server on port 9080")
 	router := mux.NewRouter()
 	router.HandleFunc("/users",
 		GetUsers).Methods("GET")
@@ -33,7 +33,7 @@ func Routers() {
 		UpdateUser).Methods("PUT")
 	router.HandleFunc("/users/{id}",
 		DeleteUser).Methods("DELETE")
-	http.ListenAndServe(":9081",
+	http.ListenAndServe(":9080",
 		&CORSRouterDecorator{router})
 }
 
