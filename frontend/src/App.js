@@ -11,7 +11,7 @@ import ViewUserComponent from './components/ViewUserComponent';
 
 function App() {
   return (
-    <div style={{ backgroundColor: 'red'}}>
+    <div>
         <Router>
               <HeaderComponent />
                 <div className="container">
