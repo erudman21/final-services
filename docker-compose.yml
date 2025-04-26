@@ -30,6 +30,7 @@ services:
       - DB_USER=root
       - DB_PASS=mysql987
       - DB_NAME=userdb
+      - EMAIL_SERVICE_URL=http://email-service:9090/send-welcome-email
     ports:
       - "9080:9080"
     restart: always
@@ -50,7 +51,22 @@ services:
     ports:
       - "3306:3306"
 
-# Lastly, there is a volume defined for the persistent data storage.
+  email-service:
+    build:
+      context: ./email-service
+      dockerfile: Dockerfile
+    environment:
+      - SMTP_HOST=smtp.ethereal.email
+      - SMTP_PORT=587
+      - SMTP_SECURE=false
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - EMAIL_FROM="fake app <no-reply@example.com>"
+      - PORT=9090
+      - NODE_ENV=production
+    ports:
+      - "9090:9090"
+    restart: always
 
 volumes:
   my-data-2:

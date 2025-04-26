@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -21,7 +22,7 @@ func main() {
 func Routers() {
 	InitDB()
 	defer db.Close()
-	log.Println("Starting the HTTP server on port 9081")
+	log.Println("Starting the HTTP server on port 9080")
 	router := mux.NewRouter()
 	router.HandleFunc("/users",
 		GetUsers).Methods("GET")
@@ -33,7 +34,7 @@ func Routers() {
 		UpdateUser).Methods("PUT")
 	router.HandleFunc("/users/{id}",
 		DeleteUser).Methods("DELETE")
-	http.ListenAndServe(":9081",
+	http.ListenAndServe(":9080",
 		&CORSRouterDecorator{router})
 }
 
@@ -82,6 +83,14 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err.Error())
 	}
+
+	userPayload := map[string]string{
+		"firstName": first_name,
+		"lastName":  last_name,
+		"email":     email,
+	}
+
+	go notifyEmailService(userPayload)
 	fmt.Fprintf(w, "New user was created")
 }
 
@@ -147,6 +156,43 @@ func DeleteUser(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, "User with ID = %s was deleted",
 		params["id"])
+}
+
+func notifyEmailService(user map[string]string) {
+	emailServiceURL := os.Getenv("EMAIL_SERVICE_URL")
+	if emailServiceURL == "" {
+		log.Println("EMAIL_SERVICE_URL not set, skipping notification.")
+		return
+	}
+
+	jsonData, err := json.Marshal(user)
+	if err != nil {
+		log.Printf("Error marshalling user data for email service: %v", err)
+		return
+	}
+
+	req, err := http.NewRequest("POST", emailServiceURL, bytes.NewBuffer(jsonData))
+	if err != nil {
+		log.Printf("Error creating request for email service: %v", err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+
+	if err != nil {
+		log.Printf("Error sending request to email service: %v", err)
+		return
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode >= 200 && resp.StatusCode < 300 {
+		log.Printf("Successfully notified email service for user: %s", user["email"])
+	} else {
+		bodyBytes, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("Email service returned non-success status: %d - %s", resp.StatusCode, string(bodyBytes))
+	}
 }
 
 /***************************************************/
