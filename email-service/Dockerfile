@@ -1,5 +1,5 @@
 
-FROM node:23-alpine-slim AS builder
+FROM node:23-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
@@ -9,13 +9,13 @@ COPY . .
 
 RUN npm run build
 
-FROM node:23-alpine-slim AS pruner
+FROM node:23-alpine AS pruner
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --omit=dev
 COPY --from=builder /app/dist ./dist
 
-FROM node:23-alpine-slim
+FROM node:23-alpine
 WORKDIR /app
 
 COPY --from=pruner /app/node_modules ./node_modules
