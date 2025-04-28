@@ -24,6 +24,8 @@ func Routers() {
 	defer db.Close()
 	log.Println("Starting the HTTP server on port 9080")
 	router := mux.NewRouter()
+
+	router.HandleFunc("/", RootHandler).Methods("GET")
 	router.HandleFunc("/users",
 		GetUsers).Methods("GET")
 	router.HandleFunc("/users",
@@ -39,6 +41,11 @@ func Routers() {
 }
 
 /***************************************************/
+
+func RootHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintln(w, "OK")
+}
 
 //Get all users
 func GetUsers(w http.ResponseWriter, r *http.Request) {
