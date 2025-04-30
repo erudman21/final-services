@@ -5,10 +5,12 @@ const USER_API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:908
 class UserService {
 
     getUsers(){
+        console.log("API URL:", process.env.REACT_APP_API_URL);
         return axios.get(USER_API_BASE_URL);
     }
 
     createUser(user){
+        console.log("API URL:", process.env.REACT_APP_API_URL);
         return axios.post(USER_API_BASE_URL, user);
     }
 
