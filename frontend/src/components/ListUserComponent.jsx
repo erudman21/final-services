@@ -44,9 +44,6 @@ class ListUserComponent extends Component {
     render() {
         return (
             <div>
-                <div style={{color: 'red', backgroundColor: 'yellow', padding: '10px'}}>
-                    API URL: {process.env.REACT_APP_API_URL || 'default value'}
-                </div>
                  <h2 className="text-center">
                      Users List</h2>
                  <div className = "row">
