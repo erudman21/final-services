@@ -13,8 +13,6 @@ RUN npm install
 COPY . . 
 # Copy the current directory (which contains the application code) to the build stage.
 
-ARG API_URL=http://localhost:9080/users
-ENV REACT_APP_API_URL=${API_URL}
 RUN npm run build
 # Build the React application.
 

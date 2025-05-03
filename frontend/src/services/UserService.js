@@ -1,9 +1,8 @@
 import axios from 'axios';
+import { API_URL } from '../config';
 
-const USER_API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:9080/users';
-
+const USER_API_BASE_URL = API_URL + '/users';
 class UserService {
-
     getUsers(){
         return axios.get(USER_API_BASE_URL);
     }
