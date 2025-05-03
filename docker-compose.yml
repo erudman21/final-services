@@ -10,6 +10,8 @@ services:
     build:
       context: ./frontend
       dockerfile: dockerfile
+    volumes:
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
     restart: always
