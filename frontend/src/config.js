@@ -10,6 +10,4 @@ const getApiUrl = () => {
     } else {
       return 'http://localhost:9080';
     }
-  };
-  
-  export const API_URL = getApiUrl();
+};
