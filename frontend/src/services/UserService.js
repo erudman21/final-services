@@ -1,28 +1,24 @@
 import axios from 'axios';
-import { getApiUrl } from '../config';
-class UserService {
-    getBaseUrl() {
-        return getApiUrl() + '/users';
-    }
 
+class UserService {
     getUsers(){
-        return axios.get(this.getBaseUrl());
+        return axios.get('/users');
     }
 
     createUser(user){
-        return axios.post(this.getBaseUrl(), user);
+        return axios.post('/users', user);
     }
 
     getUserById(userId){
-        return axios.get(this.getBaseUrl() + '/' + userId);
+        return axios.get('/users/' + userId);
     }
 
     updateUser(user, userId){
-        return axios.put(this.getBaseUrl() + '/' + userId, user);
+        return axios.put('/users/' + userId, user);
     }
 
     deleteUser(userId){
-        return axios.delete(this.getBaseUrl() + '/' + userId);
+        return axios.delete('/users/' + userId);
     }
 }
 
