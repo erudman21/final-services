@@ -14,7 +14,7 @@ function App() {
     <div>
         <Router>
               <HeaderComponent />
-                <div className="container">
+                <div className="container" style={{ backgroundColor: 'red' }}>
                     <Switch> 
                           <Route path = "/" exact component =
                               {ListUserComponent}></Route>
